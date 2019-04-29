@@ -652,6 +652,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
       LOGGER.debug(() -> "Property 'mapperLocations' was not specified or no matching resources found");
     }
 
+    // 和mybatis 单独使用时，build相同的DefaultSqlSessionFactory
     return this.sqlSessionFactoryBuilder.build(targetConfiguration);
   }
 
