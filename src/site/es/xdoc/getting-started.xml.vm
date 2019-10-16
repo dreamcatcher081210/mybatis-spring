@@ -17,59 +17,60 @@
 
 -->
 <document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
-  <properties>
-    <title>MyBatis-Spring | Primeros pasos</title>
-    <author email="hpresnall@gmail.com">Hunter Presnall</author>
-    <author email="eduardo.macarron@gmail.com">Eduardo Macarron</author>
-  </properties>
+    <properties>
+        <title>MyBatis-Spring | Primeros pasos</title>
+        <author email="hpresnall@gmail.com">Hunter Presnall</author>
+        <author email="eduardo.macarron@gmail.com">Eduardo Macarron</author>
+    </properties>
 
-  <body>
-    <section name="Primeros pasos">
-      <p>
-        Este capítulo te mostrará en pocos pasos cómo instalar y configurar MyBatis-Spring y cómo construir
-        una pequeña aplicación transaccional.
-      </p>
+    <body>
+        <section name="Primeros pasos">
+            <p>
+                Este capítulo te mostrará en pocos pasos cómo instalar y configurar MyBatis-Spring y cómo construir
+                una pequeña aplicación transaccional.
+            </p>
 
-    <subsection name="Instalación">
-      <p>
-        Para usar el módulo MyBatis-Spring, debes incluir el fichero
-        <code>mybatis-spring-${project.version}.jar</code>
-        y sus dependencias en el classpath.
-      </p>
-      <p>
-        Si usas Maven simplemente añade la siguiente dependencia a tu pom.xml:
-      </p>
-      <source><![CDATA[
+            <subsection name="Instalación">
+                <p>
+                    Para usar el módulo MyBatis-Spring, debes incluir el fichero
+                    <code>mybatis-spring-${project.version}.jar</code>
+                    y sus dependencias en el classpath.
+                </p>
+                <p>
+                    Si usas Maven simplemente añade la siguiente dependencia a tu pom.xml:
+                </p>
+                <source><![CDATA[
 <dependency>
   <groupId>org.mybatis</groupId>
   <artifactId>mybatis-spring</artifactId>
   <version>${project.version}</version>
 </dependency>]]></source>
-    </subsection>
+            </subsection>
 
-    <subsection name="Configuración rápida">
-      <p>
-        Para usar MyBatis con Spring necesitas definir al menos dos cosas en tu contexto Spring: una
-        <code>SqlSessionFactory</code> y al menos un mapper interface.
-      </p>
+            <subsection name="Configuración rápida">
+                <p>
+                    Para usar MyBatis con Spring necesitas definir al menos dos cosas en tu contexto Spring: una
+                    <code>SqlSessionFactory</code>
+                    y al menos un mapper interface.
+                </p>
 
-      <p>
-        En MyBatis-Spring se usa un 
-        <code>SqlSessionFactoryBean</code>
-        para crear una 
-        <code>SqlSessionFactory</code>
-        . Para configurar la factory bean pon lo siguiente en tu 
-        fichero de configuración de Spring:
-      </p>
+                <p>
+                    En MyBatis-Spring se usa un
+                    <code>SqlSessionFactoryBean</code>
+                    para crear una
+                    <code>SqlSessionFactory</code>
+                    . Para configurar la factory bean pon lo siguiente en tu
+                    fichero de configuración de Spring:
+                </p>
 
-        <source><![CDATA[
+                <source><![CDATA[
 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
   <property name="dataSource" ref="dataSource" />
 </bean>]]></source>
 
-      <source><![CDATA[
+                <source><![CDATA[
 @Bean
 public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
   SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
@@ -77,69 +78,70 @@ public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
   return factoryBean.getObject();
 }]]></source>
 
-      <p>
-        Observa que la <code>SqlSessionFactory</code>
-        requiere un
-        <code>DataSource</code>
-        . Éste puede ser cualquier 
-        <code>DataSource</code>
-        y debe configurarse como cualquier otra conexión a base de datos
-        de Spring.
-      </p>
+                <p>
+                    Observa que la
+                    <code>SqlSessionFactory</code>
+                    requiere un
+                    <code>DataSource</code>
+                    . Éste puede ser cualquier
+                    <code>DataSource</code>
+                    y debe configurarse como cualquier otra conexión a base de datos
+                    de Spring.
+                </p>
 
-      <p>
-        Asumamos que tienes un mapper interface definido de la siguiente forma:
-      </p>
-        <source><![CDATA[public interface UserMapper {
+                <p>
+                    Asumamos que tienes un mapper interface definido de la siguiente forma:
+                </p>
+                <source><![CDATA[public interface UserMapper {
   @Select("SELECT * FROM users WHERE id = #{userId}")
   User getUser(@Param("userId") String userId);
 } ]]></source>
 
-      <p>
-        Este interface se añade a Spring usando un 
-        <code>MapperFactoryBean</code>
-        de la siguiente forma:
-      </p>
-        <source><![CDATA[
+                <p>
+                    Este interface se añade a Spring usando un
+                    <code>MapperFactoryBean</code>
+                    de la siguiente forma:
+                </p>
+                <source><![CDATA[
 <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
   <property name="mapperInterface" value="org.mybatis.spring.sample.mapper.UserMapper" />
   <property name="sqlSessionFactory" ref="sqlSessionFactory" />
 </bean>]]></source>
 
-      <p>
-        Observa que la clase del mapper indicada
-        <strong>debe</strong>
-        ser un interface, no una implementación. En este ejemplo se usan
-        anotaciones para especificar la SQL, pero también es posible 
-        usar un fichero de mapeo XML.
-      </p>
+                <p>
+                    Observa que la clase del mapper indicada
+                    <strong>debe</strong>
+                    ser un interface, no una implementación. En este ejemplo se usan
+                    anotaciones para especificar la SQL, pero también es posible
+                    usar un fichero de mapeo XML.
+                </p>
 
-      <p>
-        Una vez configurado, puedes inyectar mappers directamente en tus
-        beans de servicio/negocio de la misma forma que inyectarías cualquier
-        otro bean en Spring.
-   	    La clase <code>MapperFactoryBean</code> se encargará de obtener 
-   	    una <code>SqlSession</code> y de cerrarla. Si hay una transación Spring
-   	    en curso, la sesión se comitará o se hará rollback cuando la transacción
-   	    finalice. Finalmente, cualquier excepción será traducida a una excepión
-        <code>DataAccessException</code>s de Spring.
-      </p>
+                <p>
+                    Una vez configurado, puedes inyectar mappers directamente en tus
+                    beans de servicio/negocio de la misma forma que inyectarías cualquier
+                    otro bean en Spring.
+                    La clase <code>MapperFactoryBean</code> se encargará de obtener
+                    una <code>SqlSession</code> y de cerrarla. Si hay una transación Spring
+                    en curso, la sesión se comitará o se hará rollback cuando la transacción
+                    finalice. Finalmente, cualquier excepción será traducida a una excepión
+                    <code>DataAccessException</code>s de Spring.
+                </p>
 
-      <p>
-        If you use the Java Configuration:
-      </p>
+                <p>
+                    If you use the Java Configuration:
+                </p>
 
-      <source><![CDATA[
+                <source><![CDATA[
 @Bean
 public UserMapper userMapper() throws Exception {
   SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory());
   return sqlSessionTemplate.getMapper(UserMapper.class);
 }]]></source>
 
-      <p>
-        Invocar a MyBatis es sólo una línea de código:
-      </p>
-      <source><![CDATA[
+                <p>
+                    Invocar a MyBatis es sólo una línea de código:
+                </p>
+                <source><![CDATA[
 public class FooServiceImpl implements FooService {
 
   private final UserMapper userMapper;
@@ -152,7 +154,7 @@ public class FooServiceImpl implements FooService {
     return this.userMapper.getUser(userId);
   }
 }]]></source>
-      </subsection>
-    </section>
-  </body>
+            </subsection>
+        </section>
+    </body>
 </document>

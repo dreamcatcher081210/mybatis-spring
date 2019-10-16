@@ -17,27 +17,28 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
   http://www.springframework.org/schema/beans/spring-beans.xsd
   http://www.springframework.org/schema/context
   http://www.springframework.org/schema/context/spring-context.xsd
   http://www.springframework.org/schema/jdbc
   http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-  <context:property-placeholder location="classpath:/org/mybatis/spring/submitted/webapp_placeholder/conf.properties"/>
+    <context:property-placeholder
+            location="classpath:/org/mybatis/spring/submitted/webapp_placeholder/conf.properties"/>
 
-  <jdbc:embedded-database id="dataSource" />
+    <jdbc:embedded-database id="dataSource"/>
 
-  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-    <property name="dataSource" ref="dataSource" />
-  </bean>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
-  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-    <property name="processPropertyPlaceHolders" value="true" />
-    <property name="basePackage" value="${basePkg}" />
-  </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="processPropertyPlaceHolders" value="true"/>
+        <property name="basePackage" value="${basePkg}"/>
+    </bean>
 
 </beans>

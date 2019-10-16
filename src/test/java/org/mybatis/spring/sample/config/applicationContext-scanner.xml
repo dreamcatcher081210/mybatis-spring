@@ -22,8 +22,8 @@
     automatically by the scanner and do not have to be explicitly defined.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- import datasource and transaction manager  -->
@@ -33,6 +33,6 @@
          UserDaoImplementation needed. The required SqlSessionFactory will be
          autowired. -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="org.mybatis.spring.sample.mapper" />
+        <property name="basePackage" value="org.mybatis.spring.sample.mapper"/>
     </bean>
 </beans>

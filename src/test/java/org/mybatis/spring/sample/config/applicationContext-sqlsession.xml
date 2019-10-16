@@ -21,8 +21,8 @@
     a hand-coded DAO implementation.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- import common beans  -->
@@ -30,14 +30,14 @@
 
     <!-- Mock for preventing bean creation error -->
     <bean id="userMapper" class="org.mockito.Mockito" factory-method="mock">
-      <constructor-arg value="org.mybatis.spring.sample.mapper.UserMapper"/>
+        <constructor-arg value="org.mybatis.spring.sample.mapper.UserMapper"/>
     </bean>
 
     <!-- Classic DAO pattern built with an interface and an implementation. -->
-    <bean id="userDao" class="org.mybatis.spring.sample.dao.UserDaoImpl" autowire="byType" />
+    <bean id="userDao" class="org.mybatis.spring.sample.dao.UserDaoImpl" autowire="byType"/>
 
     <bean id="barService" class="org.mybatis.spring.sample.service.BarService">
-      <constructor-arg ref="userDao"/>
+        <constructor-arg ref="userDao"/>
     </bean>
 
 </beans>

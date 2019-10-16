@@ -17,20 +17,23 @@
 
 -->
 <document xmlns="http://maven.apache.org/XDOC/2.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
-  <properties>
-    <title>MyBatis-Spring | 搭配 Spring Boot</title>
-    <author email="eduardo.macarron@gmail.com">Eduardo Macarron</author>
-  </properties>
-                             
-  <body>
-    <section name="搭配 Spring Boot">
-      <p>
-        请查看 <a href="http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure">MyBatis Spring-boot-starter</a> 
-        子项目获取更多信息。
-      </p>
-    </section>
-  </body>
+    <properties>
+        <title>MyBatis-Spring | 搭配 Spring Boot</title>
+        <author email="eduardo.macarron@gmail.com">Eduardo Macarron</author>
+    </properties>
+
+    <body>
+        <section name="搭配 Spring Boot">
+            <p>
+                请查看
+                <a href="http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure">MyBatis
+                    Spring-boot-starter
+                </a>
+                子项目获取更多信息。
+            </p>
+        </section>
+    </body>
 </document>

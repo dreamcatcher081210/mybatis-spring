@@ -17,20 +17,23 @@
 
 -->
 <document xmlns="http://maven.apache.org/XDOC/2.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
-  <properties>
-    <title>MyBatis-Spring | Spring Boot</title>
-    <author email="eduardo.macarron@gmail.com">Eduardo Macarron</author>
-  </properties>
-                             
-  <body>
-    <section name="스프링 부트 사용하기">
-      <p>
-        자세한 내용은 <a href="http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure">MyBatis Spring-boot-starter</a> 
-        하위 프로젝트 문서를 참조하십시오.
-      </p>
-    </section>
-  </body>
+    <properties>
+        <title>MyBatis-Spring | Spring Boot</title>
+        <author email="eduardo.macarron@gmail.com">Eduardo Macarron</author>
+    </properties>
+
+    <body>
+        <section name="스프링 부트 사용하기">
+            <p>
+                자세한 내용은
+                <a href="http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure">MyBatis
+                    Spring-boot-starter
+                </a>
+                하위 프로젝트 문서를 참조하십시오.
+            </p>
+        </section>
+    </body>
 </document>

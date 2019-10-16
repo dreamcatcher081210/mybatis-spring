@@ -28,60 +28,61 @@
          http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
        ">
 
-  <!-- in-memory database and a datasource -->
-  <jdbc:embedded-database id="dataSource">
-    <jdbc:script location="classpath:org/mybatis/spring/sample/db/database-schema.sql"/>
-    <jdbc:script location="classpath:org/springframework/batch/core/schema-drop-hsqldb.sql"/>
-    <jdbc:script location="classpath:org/springframework/batch/core/schema-hsqldb.sql"/>
-    <jdbc:script location="classpath:org/mybatis/spring/sample/db/database-test-data.sql"/>
-  </jdbc:embedded-database>
+    <!-- in-memory database and a datasource -->
+    <jdbc:embedded-database id="dataSource">
+        <jdbc:script location="classpath:org/mybatis/spring/sample/db/database-schema.sql"/>
+        <jdbc:script location="classpath:org/springframework/batch/core/schema-drop-hsqldb.sql"/>
+        <jdbc:script location="classpath:org/springframework/batch/core/schema-hsqldb.sql"/>
+        <jdbc:script location="classpath:org/mybatis/spring/sample/db/database-test-data.sql"/>
+    </jdbc:embedded-database>
 
-  <!-- transaction manager, use JtaTransactionManager for global tx -->
-  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-    <constructor-arg ref="dataSource"/>
-  </bean>
+    <!-- transaction manager, use JtaTransactionManager for global tx -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <constructor-arg ref="dataSource"/>
+    </bean>
 
-  <!-- SqlSessionFactory configuration -->
-  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-    <property name="dataSource" ref="dataSource"/>
-    <property name="mapperLocations" value="classpath:org/mybatis/spring/sample/mapper/*.xml"/>
-    <property name="configuration">
-      <bean class="org.apache.ibatis.session.Configuration">
-        <property name="defaultExecutorType" value="BATCH"/>
-      </bean>
-    </property>
-  </bean>
+    <!-- SqlSessionFactory configuration -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath:org/mybatis/spring/sample/mapper/*.xml"/>
+        <property name="configuration">
+            <bean class="org.apache.ibatis.session.Configuration">
+                <property name="defaultExecutorType" value="BATCH"/>
+            </bean>
+        </property>
+    </bean>
 
-  <batch:job-repository/>
+    <batch:job-repository/>
 
-  <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-    <property name="jobRepository" ref="jobRepository"/>
-  </bean>
+    <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository"/>
+    </bean>
 
-  <bean id="reader" class="org.mybatis.spring.batch.MyBatisCursorItemReader">
-    <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    <property name="queryId" value="org.mybatis.spring.sample.mapper.UserMapper.getUsers"/>
-  </bean>
+    <bean id="reader" class="org.mybatis.spring.batch.MyBatisCursorItemReader">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="queryId" value="org.mybatis.spring.sample.mapper.UserMapper.getUsers"/>
+    </bean>
 
-  <bean id="processor" class="org.mybatis.spring.sample.batch.UserToPersonItemProcessor"/>
+    <bean id="processor" class="org.mybatis.spring.sample.batch.UserToPersonItemProcessor"/>
 
-  <bean id="writer" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
-    <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    <property name="statementId" value="org.mybatis.spring.sample.mapper.PersonMapper.createPerson"/>
-    <property name="itemToParameterConverter">
-      <bean class="org.mybatis.spring.sample.config.SampleJobConfig" factory-method="createItemToParameterMapConverter">
-        <constructor-arg type="java.lang.String" value="batch_xml_config_user"/>
-        <constructor-arg type="java.time.LocalDateTime" value="#{T(java.time.LocalDateTime).now()}"/>
-      </bean>
-    </property>
-  </bean>
+    <bean id="writer" class="org.mybatis.spring.batch.MyBatisBatchItemWriter">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="statementId" value="org.mybatis.spring.sample.mapper.PersonMapper.createPerson"/>
+        <property name="itemToParameterConverter">
+            <bean class="org.mybatis.spring.sample.config.SampleJobConfig"
+                  factory-method="createItemToParameterMapConverter">
+                <constructor-arg type="java.lang.String" value="batch_xml_config_user"/>
+                <constructor-arg type="java.time.LocalDateTime" value="#{T(java.time.LocalDateTime).now()}"/>
+            </bean>
+        </property>
+    </bean>
 
-  <batch:job id="importUserJob">
-    <batch:step id="step1">
-      <batch:tasklet transaction-manager="transactionManager">
-        <batch:chunk reader="reader" writer="writer" processor="processor" commit-interval="10"/>
-      </batch:tasklet>
-    </batch:step>
-  </batch:job>
+    <batch:job id="importUserJob">
+        <batch:step id="step1">
+            <batch:tasklet transaction-manager="transactionManager">
+                <batch:chunk reader="reader" writer="writer" processor="processor" commit-interval="10"/>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 
 </beans>
